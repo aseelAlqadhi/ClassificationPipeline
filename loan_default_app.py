@@ -1,19 +1,21 @@
 import pandas as pd
 import streamlit as st
 import joblib
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 st.set_page_config(layout='wide', page_title='Loan Default Prediction')
-
 st.title('Loan Default Prediction')
 
 # ── Cache the data & model so they load only once ──────────────────────────
 @st.cache_data
 def load_data():
-    return pd.read_csv('loan_default.csv')
+    return pd.read_csv(os.path.join(BASE_DIR, 'loan_default.csv'))
 
 @st.cache_resource
 def load_model():
-    return joblib.load('catboost_loan.pkl')
+    return joblib.load(os.path.join(BASE_DIR, 'catboost_loan.pkl'))
 
 df       = load_data()
 ml_model = load_model()
